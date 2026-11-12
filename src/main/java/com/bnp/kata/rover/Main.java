@@ -1,6 +1,7 @@
 package com.bnp.kata.rover;
 
 import com.bnp.kata.rover.builder.RoverMissionBuilder;
+import com.bnp.kata.rover.formatter.ConsoleOutputFormatter;
 import com.bnp.kata.rover.orchestrator.RoverMissionOrchestrator;
 import com.bnp.kata.rover.reader.FileInputReader;
 import com.bnp.kata.rover.reader.InputReader;
@@ -18,7 +19,7 @@ public class Main {
 
         InputReader reader = new FileInputReader();
         RoverMissionBuilder builder = new RoverMissionBuilder(new RoverMissionValidator());
-        OutputReporter reporter = new ConsoleOutputReporter();
+        OutputReporter reporter = new ConsoleOutputReporter(new ConsoleOutputFormatter());
 
         RoverMissionOrchestrator orchestrator =
                 new RoverMissionOrchestrator(reader, builder, reporter);

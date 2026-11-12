@@ -8,10 +8,12 @@ import com.bnp.kata.rover.model.Position;
 import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.model.enums.Direction;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 public class RoverMissionParser {
 
@@ -21,9 +23,16 @@ public class RoverMissionParser {
 
     public List<RoverMissionData> parse(List<String> lines) {
 
+        log.info("Starting rover mission parsing");
+
         validate(lines);
 
         MarsPlateau marsPlateau = parseMarsPlateau(lines.getFirst());
+        log.info(
+                "Creating marsPlateau [{} {}]",
+                marsPlateau.upperRight().x(),
+                marsPlateau.upperRight().y()
+        );
 
         List<RoverMissionData> missions = new ArrayList<>();
 
@@ -32,10 +41,20 @@ public class RoverMissionParser {
             Rover rover = parseRover(lines.get(i));
             String instructions = lines.get(i + 1);
 
+            log.info("Creating instructions [{}]", instructions);
+
             RoverMissionData roverMissionData = factory.create(marsPlateau, rover, instructions);
 
+            log.info(
+                    "Creating mission for rover [{} {} {}]",
+                    rover.position().x(),
+                    rover.position().y(),
+                    rover.direction()
+            );
             missions.add(roverMissionData);
         }
+
+        log.info("Successfully parsed {} rover missions", missions.size());
 
         return missions;
     }
@@ -87,6 +106,5 @@ public class RoverMissionParser {
 
         return line.trim().split(SPACE_DELIMITER);
     }
-
-
+    
 }

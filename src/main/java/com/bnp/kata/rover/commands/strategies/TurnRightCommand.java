@@ -1,7 +1,6 @@
 package com.bnp.kata.rover.commands.strategies;
 
 import com.bnp.kata.rover.factory.RoverMissionData;
-import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.model.enums.Direction;
 
 public class TurnRightCommand implements CommandInterface {

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -11,13 +12,22 @@
     <version>1.0</version>
 
     <properties>
+        <!-- Java -->
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!-- Dependencies -->
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.13.4</junit.version>
         <assertj.version>3.27.7</assertj.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <logback.version>1.6.3</logback.version>
+
+        <!-- Maven Plugins -->
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     </properties>
 
     <dependencies>
@@ -30,7 +40,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Unit Tests -->
+        <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -45,6 +55,19 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -53,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>${maven-jar-plugin.version}</version>
 
                 <configuration>
                     <archive>
@@ -69,7 +92,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.1</version>
+                <version>${maven-compiler-plugin.version}</version>
+
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
@@ -84,7 +108,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.4</version>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
 
         </plugins>

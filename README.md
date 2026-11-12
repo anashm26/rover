@@ -48,10 +48,10 @@ Run a specific unit test:
 mvn test -Dtest=CommandRegistryTest
 ```
 
-Run a specific integration test:
+Run integration tests with success and errors scenarios: 
 
 ```bash
-mvn test -Dtest=RoverMissionDataIntegrationTest
+mvn test -Dtest=RoverMissionIntegrationTest
 ```
 
 ## Features

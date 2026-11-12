@@ -6,7 +6,6 @@ import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.model.enums.Direction;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Builder(toBuilder = true)

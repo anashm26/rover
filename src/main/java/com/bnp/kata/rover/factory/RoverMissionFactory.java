@@ -5,6 +5,7 @@ import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.validation.RoverMissionValidator;
 import lombok.RequiredArgsConstructor;
 
+
 @RequiredArgsConstructor
 public class RoverMissionFactory {
 
