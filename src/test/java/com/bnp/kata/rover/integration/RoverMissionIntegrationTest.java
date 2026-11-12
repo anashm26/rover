@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RoverMissionDataIntegrationTest {
+class RoverMissionIntegrationTest {
 
     private RoverMissionParser roverMissionParser;
     private RoverMissionService roverMissionService;

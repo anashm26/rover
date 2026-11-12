@@ -1,8 +1,58 @@
-# Mars Rover
+# Mars Rover Mission
 
 A Java implementation of the classic Mars Rover kata.
 
 The application reads rover missions from an input file, executes each mission on a plateau, and prints the final rover positions.
+
+
+
+## Requirements
+
+- Java 21+
+- Maven 3.9+
+
+### Libraries
+
+- Lombok - Boilerplate code reduction
+
+### Testing
+
+- JUnit 5 - Unit testing
+- AssertJ - Fluent assertions
+
+
+## Build
+
+```bash
+mvn clean package
+```
+
+## Run
+
+```bash
+java -jar mars-rover.jar input.txt
+```
+
+
+## Running Tests
+
+Run all tests:
+
+```bash
+mvn test
+```
+
+Run a specific unit test:
+
+```bash
+mvn test -Dtest=CommandRegistryTest
+```
+
+Run a specific integration test:
+
+```bash
+mvn test -Dtest=RoverMissionDataIntegrationTest
+```
 
 ## Features
 
@@ -34,12 +84,8 @@ Each rover mission is described using two lines:
 
 1. Initial rover position (`X Y D`)
 2. Navigation instructions (`L`, `R`, `M`)
+3. The lower-left plateau coordinate is assumed to be: `0  0`
 
-The lower-left plateau coordinate is assumed to be:
-
-```text
-0 0
-```
 
 ---
 
@@ -50,9 +96,6 @@ The lower-left plateau coordinate is assumed to be:
 - `M` : Move forward
 
 ---
-
-
-
 ## Expected Output
 
 For the sample input:
@@ -104,40 +147,3 @@ Application flow:
 - Centralized validation rules
 
 The objective was to keep the implementation simple, testable and easy to extend while avoiding unnecessary abstractions.
-
----
-
-## Build
-
-```bash
-mvn clean package
-```
-
-## Run
-
-```bash
-java -jar mars-rover.jar input.txt
-```
-
-
-## Running Tests
-
-Run all tests:
-
-```bash
-mvn test
-```
-
-Run a specific unit test:
-
-```bash
-mvn test -Dtest=CommandRegistryTest
-```
-
-## Running Integration Tests
-
-Run a specific integration test:
-
-```bash
-mvn test -Dtest=RoverMissionDataIntegrationTest
-```
