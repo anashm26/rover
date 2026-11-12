@@ -1,119 +1,143 @@
-# Mars Rover Mission
-A Java application that simulates rovers moving on a rectangular plateau.
+# Mars Rover
+
+A Java implementation of the classic Mars Rover kata.
+
+The application reads rover missions from an input file, executes each mission on a plateau, and prints the final rover positions.
 
 ## Features
 
-- Move a rover forward and rotate left or right.
-- Support multiple rover missions on the same plateau.
-- Keep rover positions inside the plateau.
-- Parse and validate mission input.
-- Report invalid input and movement through clear exceptions.
-- Verify behavior with unit and integration tests.
+- Parse plateau and rover mission definitions from a text file
+- Execute rover movement and rotation commands
+- Validate rover deployment and movements
+- Prevent out-of-bounds navigation
+- Produce final rover positions in the expected format
+- Extensible command architecture using the Command Pattern
 
-## Requirements
+---
 
-- Java 17 or later
-- Maven
+## Input Format
 
-## Build and Test
-
-Run these commands from the project directory:
-
-```bash
-mvn clean test
-mvn clean package
-```
-
-## Running the JAR with an input file
-You can execute the application by passing the input.txt file path as the first command line argument: 
-
-```bash
-java -jar rover.jar input.txt
-```
-
-## Mission Input
-
-The input starts with the plateau's maximum X and Y coordinates. Each rover then has a
-starting position/direction line followed by its instruction sequence.
+Example:
 
 ```text
 5 5
 1 2 N
 LMLMLMLMM
 3 3 E
-MMRMM
+MMRMMRMRRM
 ```
 
-Directions: `N`, `E`, `S`, `W`.
 
-Commands:
-- `L` — turn left.
-- `R` — turn right.
-- `M` — move forward one position.
+The first line defines the plateau boundaries.
 
-## Project Structure
+Each rover mission is described using two lines:
+
+1. Initial rover position (`X Y D`)
+2. Navigation instructions (`L`, `R`, `M`)
+
+The lower-left plateau coordinate is assumed to be:
 
 ```text
-src/
-  main/java/       Application source code
-  test/java/       Unit and integration tests
+0 0
 ```
 
+---
+
+## Commands
+
+- `L` : Turn left
+- `R` : Turn right
+- `M` : Move forward
+
+---
+
+
+
+## Expected Output
+
+For the sample input:
+
+```text
+5 5
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM
+```
+
+Output:
+
+```text
+1 3 N
+5 1 E
+```
+
+---
 
 ## Architecture
 
-The application is organized into small packages.
+The application is organized around a small set of responsibilities:
 
-```text
-src/main/java/
-  model/                 Rover, Position, Direction
-  commands/              CommandInterface
-  commands/registry/     CommandRegistry
-  factory/               RoverMission and RoverMissionFactory
-  validation/            RoverValidator
-  utils/parser/          RoverMissionParser
-  service/               RoverMissionService
+- **InputReader** loads the mission input.
+- **RoverMissionBuilder** parses the input and builds the mission execution components.
+- **RoverMissionService** executes rover instructions.
+- **RoverMissionValidator** validates rover deployment and movements.
+- **OutputReporter** produces the final output.
+- **RoverMissionOrchestrator** coordinates the complete workflow from input reading to result reporting.
+
+Application flow:
+
+1. Read input
+2. Build missions
+3. Execute rover commands
+4. Report final rover positions
+
+---
+
+## Design Principles
+
+- Single Responsibility Principle (SRP)
+- Constructor-based dependency injection
+- Command Pattern for rover instructions
+- Immutable value objects
+- Separation of input, execution and output concerns
+- Centralized validation rules
+
+The objective was to keep the implementation simple, testable and easy to extend while avoiding unnecessary abstractions.
+
+---
+
+## Build
+
+```bash
+mvn clean package
 ```
 
-### Main Components
+## Run
 
-- **Model:** 
-  - `Rover` stores its current position and direction. 
-  - `Position` represents
-    coordinates and calculates the next position. 
-  - `Direction` defines the four directions and its rotations.
+```bash
+java -jar mars-rover.jar input.txt
+```
 
-- **Commands:** 
-  - `Command` interface represents an instruction. 
-  - `CommandRegistry`
-    maps Command Enum values to the corresponding rover actions.
-- **Validation:** 
-  - `RoverMissionValidator` checks plateau dimensions, starting positions,
-    movement boundaries, and allowed instruction characters.
-- **Factory:** 
-  - `RoverMissionFactory` validates mission data and creates a rover and
-    its `RoverMissionData` object.
-- **Parser:** 
-  - `RoverMissionParser` reads the input lines, removes blank/comment lines,
-    parses the plateau and rover data, and creates missions through the factory.
-- **Service:** 
-  - `RoverMissionService` executes each instruction in order. Before a
-    forward move, it calculates and validates the proposed position so an invalid move
-    is rejected before the rover changes position.
 
-### Execution Flow
+## Running Tests
 
-1. The parser receives the mission input.
-2. The factory and validator check the plateau, rover starting data, and instructions.
-3. A `RoverMissionData` is created for each rover.
-4. The service processes each mission's instructions in sequence.
-5. The command registry dispatches each instruction to the rover.
-6. The rover's final position and direction can then be read from its model.
+Run all tests:
 
-## Tests
+```bash
+mvn test
+```
 
-Tests are under `src/test/java/` and are grouped by purpose:
+Run a specific unit test:
 
-- **Unit tests:** model, parser, factory, validator, command registry, and service behavior.
-- **Integration tests:** complete rover mission success and exceptions (error) scenarios.
+```bash
+mvn test -Dtest=CommandRegistryTest
+```
 
+## Running Integration Tests
+
+Run a specific integration test:
+
+```bash
+mvn test -Dtest=RoverMissionDataIntegrationTest
+```

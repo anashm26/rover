@@ -5,11 +5,10 @@ import com.bnp.kata.rover.orchestrator.RoverMissionOrchestrator;
 import com.bnp.kata.rover.reader.FileInputReader;
 import com.bnp.kata.rover.reader.InputReader;
 import com.bnp.kata.rover.reporter.ConsoleOutputReporter;
-
+import com.bnp.kata.rover.reporter.OutputReporter;
 import com.bnp.kata.rover.validation.RoverMissionValidator;
 
 import java.io.IOException;
-
 
 public class Main {
 
@@ -19,7 +18,7 @@ public class Main {
 
         InputReader reader = new FileInputReader();
         RoverMissionBuilder builder = new RoverMissionBuilder(new RoverMissionValidator());
-        ConsoleOutputReporter reporter = new ConsoleOutputReporter();
+        OutputReporter reporter = new ConsoleOutputReporter();
 
         RoverMissionOrchestrator orchestrator =
                 new RoverMissionOrchestrator(reader, builder, reporter);
