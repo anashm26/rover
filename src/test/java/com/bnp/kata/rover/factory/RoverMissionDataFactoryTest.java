@@ -44,7 +44,7 @@ class RoverMissionDataFactoryTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenInitialPositionOutOfMarsPlateau(){
+    void shouldThrowExceptionWhenPositionOutOfMarsPlateau(){
 
         //given
         MarsPlateau marsPlateau = new MarsPlateau(new Position(5,7));
@@ -59,7 +59,7 @@ class RoverMissionDataFactoryTest {
         RoverException exception = assertThrows(RoverOutOfMarsPlateauException.class,
                 () -> factory.create(marsPlateau, rover, instructions));
 
-        String expectedErrorMessage = "Initial position (6,2) outside mars plateau (5,7).";
+        String expectedErrorMessage = "Rover position (6,2) outside mars plateau (5,7).";
 
         assertEquals(expectedErrorMessage, exception.getMessage()) ;
     }

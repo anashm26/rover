@@ -45,7 +45,7 @@ class RoverMissionValidatorTest {
         RoverException exception = assertThrows(RoverOutOfMarsPlateauException.class,
                 () -> roverMissionValidator.validatePosition(position, marsPlateau));
 
-        String expectedErrorMessage = "Initial position (6,1) outside mars plateau (5,5).";
+        String expectedErrorMessage = "Rover position (6,1) outside mars plateau (5,5).";
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
 

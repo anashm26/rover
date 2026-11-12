@@ -44,7 +44,7 @@ public class RoverMissionTestDataProvider {
                 Arguments.of("Rover Outside Plateau",
                         "rover-outside-plateau.txt",
                         RoverOutOfMarsPlateauException.class,
-                        "Initial position (2,9) outside mars plateau (7,8).")
+                        "Rover position (2,9) outside mars plateau (7,8).")
         );
     }
 }
