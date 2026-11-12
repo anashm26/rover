@@ -1,58 +1,38 @@
 package com.bnp.kata.rover;
 
-import com.bnp.kata.rover.commands.registry.CommandRegistry;
-import com.bnp.kata.rover.factory.RoverMission;
-import com.bnp.kata.rover.factory.RoverMissionFactory;
-import com.bnp.kata.rover.model.Rover;
-import com.bnp.kata.rover.service.RoverMissionService;
-import com.bnp.kata.rover.utils.parser.RoverMissionParser;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.builder.RoverMissionBuilder;
+import com.bnp.kata.rover.orchestrator.RoverMissionOrchestrator;
+import com.bnp.kata.rover.reader.FileInputReader;
+import com.bnp.kata.rover.reader.InputReader;
+import com.bnp.kata.rover.reporter.ConsoleOutputReporter;
+
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
+
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        validateArguments(args);
+
+        InputReader reader = new FileInputReader();
+        RoverMissionBuilder builder = new RoverMissionBuilder(new RoverMissionValidator());
+        ConsoleOutputReporter reporter = new ConsoleOutputReporter();
+
+        RoverMissionOrchestrator orchestrator =
+                new RoverMissionOrchestrator(reader, builder, reporter);
+
+        orchestrator.execute(args[0]);
+    }
+
+    private static void validateArguments(String[] args) {
         if (args.length != 1
                 || args[0].isBlank()) {
 
             throw new IllegalArgumentException("Invalid command line arguments");
         }
-
-        List<String> lines = Files.readAllLines(Path.of(args[0]));
-
-        RoverValidator validator = new RoverValidator();
-
-        RoverMissionFactory factory = new RoverMissionFactory(validator);
-
-        RoverMissionParser parser = new RoverMissionParser(factory);
-
-        List<RoverMission> missions = parser.parse(lines);
-
-        CommandRegistry registry = new CommandRegistry(validator);
-
-        RoverMissionService service = new RoverMissionService(registry);
-
-        for (RoverMission mission : missions) {
-
-            service.execute(mission);
-        }
-
-        missions.stream()
-                .map(RoverMission::getRover)
-                .forEach(Main::print);
     }
 
-    private static void print(Rover rover) {
-
-        System.out.printf(
-                "%d %d %s%n",
-                rover.getPosition().x(),
-                rover.getPosition().y(),
-                rover.getDirection().getCode());
-    }
 }

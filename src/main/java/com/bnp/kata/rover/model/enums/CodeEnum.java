@@ -1,6 +1,6 @@
 package com.bnp.kata.rover.model.enums;
 
-import com.bnp.kata.rover.exceptions.InvalidInputFormatException;
+import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -24,6 +24,6 @@ public interface CodeEnum {
         return Arrays.stream(enumType.getEnumConstants())
                 .filter(value -> value.getCode() == code)
                 .findFirst()
-                .orElseThrow(() -> new InvalidInputFormatException(errorMessage));
+                .orElseThrow(() -> new InvalidInstructionsFormatException(errorMessage));
     }
 }

@@ -6,12 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
-@Getter
-@Setter
 @Builder
-public class Rover {
-
-    private Position position;
-    private Direction direction;
-}
+public record Rover(
+        Position position,
+        Direction direction
+) {}

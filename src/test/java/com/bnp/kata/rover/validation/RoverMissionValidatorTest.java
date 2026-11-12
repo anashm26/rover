@@ -1,6 +1,6 @@
 package com.bnp.kata.rover.validation;
 
-import com.bnp.kata.rover.exceptions.InvalidInputFormatException;
+import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
 import com.bnp.kata.rover.exceptions.RoverException;
 import com.bnp.kata.rover.exceptions.RoverOutOfMarsPlateauException;
 import com.bnp.kata.rover.model.MarsPlateau;
@@ -9,21 +9,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RoverValidatorTest {
+class RoverMissionValidatorTest {
 
-    private final RoverValidator roverValidator = new RoverValidator();
+    private final RoverMissionValidator roverMissionValidator = new RoverMissionValidator();
 
     @Test
     void validRoverPositions(){
 
         //given
-        Position initialPosition = new Position(1, 1);
-        Position currentPosition = new Position(5, 5);
+        Position position = new Position(1, 1);
         MarsPlateau marsPlateau = new MarsPlateau(new Position(5, 5));
 
         //when-then
-        assertDoesNotThrow(() -> roverValidator.validateInitialPosition(initialPosition, marsPlateau));
-        assertDoesNotThrow(() -> roverValidator.validateInitialPosition(currentPosition, marsPlateau));
+        assertDoesNotThrow(() -> roverMissionValidator.validatePosition(position, marsPlateau));
     }
 
     @Test
@@ -33,40 +31,23 @@ class RoverValidatorTest {
         String instructions = "LMRMRLMMRMLLM";
 
         //when-then
-        assertDoesNotThrow(() -> roverValidator.validateInstructions(instructions));
+        assertDoesNotThrow(() -> roverMissionValidator.validateInstructions(instructions));
     }
 
     @Test
-    void shouldThrowExceptionWhenInitialPositionOutPlateau(){
+    void shouldThrowExceptionWhenPositionOutPlateau(){
 
         //given
-        Position initialPosition = new Position(6, 1);
+        Position position = new Position(6, 1);
         MarsPlateau marsPlateau = new MarsPlateau(new Position(5, 5));
 
         //when-then
         RoverException exception = assertThrows(RoverOutOfMarsPlateauException.class,
-                () -> roverValidator.validateInitialPosition(initialPosition, marsPlateau));
+                () -> roverMissionValidator.validatePosition(position, marsPlateau));
 
         String expectedErrorMessage = "Initial position (6,1) outside mars plateau (5,5).";
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
-
-    @Test
-    void shouldThrowExceptionWhenCurrentPositionOutPlateau(){
-
-        //given
-        Position initialPosition = new Position(6, 1);
-        MarsPlateau marsPlateau = new MarsPlateau(new Position(5, 5));
-
-        RoverException exception = assertThrows(RoverOutOfMarsPlateauException.class,
-                () -> roverValidator.validateMovement(initialPosition, marsPlateau));
-
-
-        //when-then
-        String expectedErrorMessage = "Rover position (6,1) outside mars plateau (5,5).";
-        assertEquals(expectedErrorMessage, exception.getMessage());
-    }
-
 
     @Test
     void shouldThrowExceptionWhenInstructionsAreEmptyOrNull(){
@@ -75,16 +56,16 @@ class RoverValidatorTest {
         String blankInstructions = "   ";
 
         //when-then
-        RoverException blankInstructionsException = assertThrows(InvalidInputFormatException.class,
-                () -> roverValidator.validateInstructions(blankInstructions));
+        RoverException blankInstructionsException = assertThrows(InvalidInstructionsFormatException.class,
+                () -> roverMissionValidator.validateInstructions(blankInstructions));
 
 
         String expectedBlankInstructionsErrorMessage = "Instructions cannot be empty";
         assertEquals(expectedBlankInstructionsErrorMessage, blankInstructionsException.getMessage());
 
         //when-then
-        RoverException nullInstructionsException = assertThrows(InvalidInputFormatException.class,
-                () -> roverValidator.validateInstructions(null));
+        RoverException nullInstructionsException = assertThrows(InvalidInstructionsFormatException.class,
+                () -> roverMissionValidator.validateInstructions(null));
 
 
         String expectedNullInstructionsExceptionErrorMessage = "Instructions cannot be empty";
@@ -99,8 +80,8 @@ class RoverValidatorTest {
         String invalidInstructions = "LMRXTRM";
 
         //when-then
-        RoverException blankInstructionsException = assertThrows(InvalidInputFormatException.class,
-                () -> roverValidator.validateInstructions(invalidInstructions));
+        RoverException blankInstructionsException = assertThrows(InvalidInstructionsFormatException.class,
+                () -> roverMissionValidator.validateInstructions(invalidInstructions));
 
 
         String invalidInstructionsErrorMessage = "Invalid input format unknown code [X] for enum Command. Allowed values [L, R, M]";

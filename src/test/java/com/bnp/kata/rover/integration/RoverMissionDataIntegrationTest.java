@@ -2,13 +2,13 @@ package com.bnp.kata.rover.integration;
 
 import com.bnp.kata.rover.commands.registry.CommandRegistry;
 import com.bnp.kata.rover.exceptions.RoverException;
-import com.bnp.kata.rover.factory.RoverMission;
+import com.bnp.kata.rover.factory.RoverMissionData;
 import com.bnp.kata.rover.factory.RoverMissionFactory;
 import com.bnp.kata.rover.model.Position;
 import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.service.RoverMissionService;
 import com.bnp.kata.rover.utils.parser.RoverMissionParser;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RoverMissionIntegrationTest {
+class RoverMissionDataIntegrationTest {
 
     private RoverMissionParser roverMissionParser;
     private RoverMissionService roverMissionService;
@@ -29,9 +29,9 @@ class RoverMissionIntegrationTest {
     @BeforeEach
     void setUp(){
 
-        RoverValidator roverValidator = new RoverValidator();
-        RoverMissionFactory roverMissionFactory = new RoverMissionFactory(roverValidator);
-        CommandRegistry commandRegistry = new CommandRegistry(roverValidator);
+        RoverMissionValidator roverMissionValidator = new RoverMissionValidator();
+        RoverMissionFactory roverMissionFactory = new RoverMissionFactory(roverMissionValidator);
+        CommandRegistry commandRegistry = new CommandRegistry(roverMissionValidator);
         roverMissionParser = new RoverMissionParser(roverMissionFactory);
         roverMissionService = new RoverMissionService(commandRegistry);
     }
@@ -44,7 +44,7 @@ class RoverMissionIntegrationTest {
 
         Path path = Path.of("src", "test", "resources", "input", inputFile);
 
-        List<RoverMission> missions = readRoverMissions(path);
+        List<RoverMissionData> missions = readRoverMissions(path);
         assertOutput(missions,outputFile);
     }
 
@@ -62,24 +62,24 @@ class RoverMissionIntegrationTest {
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
-    private List<RoverMission> readRoverMissions(Path path) throws IOException {
+    private List<RoverMissionData> readRoverMissions(Path path) throws IOException {
 
         List<String> input = Files.readAllLines(path);
-        List<RoverMission> roverMissions = roverMissionParser.parse(input);
+        List<RoverMissionData> roverMissionData = roverMissionParser.parse(input);
 
-        roverMissions.forEach(roverMissionService::execute);
+        roverMissionData.forEach(roverMissionService::execute);
 
-        return roverMissions;
+        return roverMissionData;
     }
 
-    private void assertOutput(List<RoverMission> missions, String outputFile) throws IOException {
+    private void assertOutput(List<RoverMissionData> missions, String outputFile) throws IOException {
 
         List<String> actual = missions.stream()
                                         .map(roverMission -> {
 
                                             Rover rover = roverMission.getRover();
-                                            Position position = rover.getPosition();
-                                            char direction = rover.getDirection().getCode();
+                                            Position position = rover.position();
+                                            char direction = rover.direction().getCode();
 
                                             return position.x() + " " + position.y() + " " + direction;
                                         }).toList();

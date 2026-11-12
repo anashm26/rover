@@ -88,11 +88,11 @@ src/main/java/
   - `CommandRegistry`
     maps Command Enum values to the corresponding rover actions.
 - **Validation:** 
-  - `RoverValidator` checks plateau dimensions, starting positions,
+  - `RoverMissionValidator` checks plateau dimensions, starting positions,
     movement boundaries, and allowed instruction characters.
 - **Factory:** 
   - `RoverMissionFactory` validates mission data and creates a rover and
-    its `RoverMission` object.
+    its `RoverMissionData` object.
 - **Parser:** 
   - `RoverMissionParser` reads the input lines, removes blank/comment lines,
     parses the plateau and rover data, and creates missions through the factory.
@@ -105,7 +105,7 @@ src/main/java/
 
 1. The parser receives the mission input.
 2. The factory and validator check the plateau, rover starting data, and instructions.
-3. A `RoverMission` is created for each rover.
+3. A `RoverMissionData` is created for each rover.
 4. The service processes each mission's instructions in sequence.
 5. The command registry dispatches each instruction to the rover.
 6. The rover's final position and direction can then be read from its model.

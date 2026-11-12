@@ -1,11 +1,11 @@
 package com.bnp.kata.rover.utils.parser;
 
-import com.bnp.kata.rover.exceptions.InvalidInputFormatException;
+import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
 import com.bnp.kata.rover.exceptions.RoverException;
-import com.bnp.kata.rover.factory.RoverMission;
+import com.bnp.kata.rover.factory.RoverMissionData;
 import com.bnp.kata.rover.factory.RoverMissionFactory;
 import com.bnp.kata.rover.model.enums.Direction;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +14,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RoverMissionParserTest {
+class RoverMissionDataParserTest {
 
     private RoverMissionParser parser;
 
     @BeforeEach
     void setUp() {
 
-        RoverMissionFactory factory = new RoverMissionFactory(new RoverValidator());
+        RoverMissionFactory factory = new RoverMissionFactory(new RoverMissionValidator());
 
         parser = new RoverMissionParser(factory);
     }
@@ -36,15 +36,15 @@ class RoverMissionParserTest {
                 "LMRMLM");
 
         //when
-        List<RoverMission> roverMissions = parser.parse(input);
+        List<RoverMissionData> roverMissionData = parser.parse(input);
 
         //then
-        assertEquals(1, roverMissions.size());
+        assertEquals(1, roverMissionData.size());
 
-        assertEquals(1, roverMissions.getFirst().getRover().getPosition().x());
-        assertEquals(2, roverMissions.getFirst().getRover().getPosition().y());
-        assertEquals(Direction.NORTH, roverMissions.getFirst().getRover().getDirection());
-        assertEquals("LMRMLM", roverMissions.getFirst().getInstructions());
+        assertEquals(1, roverMissionData.getFirst().getRover().position().x());
+        assertEquals(2, roverMissionData.getFirst().getRover().position().y());
+        assertEquals(Direction.NORTH, roverMissionData.getFirst().getRover().direction());
+        assertEquals("LMRMLM", roverMissionData.getFirst().getInstructions());
     }
 
     @Test
@@ -63,10 +63,10 @@ class RoverMissionParserTest {
                 "LMRMLM");
 
         //when
-        List<RoverMission> roverMissions = parser.parse(input);
+        List<RoverMissionData> roverMissionData = parser.parse(input);
 
         //then
-        assertEquals(4, roverMissions.size());
+        assertEquals(4, roverMissionData.size());
     }
 
     @Test
@@ -79,7 +79,7 @@ class RoverMissionParserTest {
                 "LMRMLM");
 
         //when-then
-        RoverException roverException = assertThrows(InvalidInputFormatException.class,
+        RoverException roverException = assertThrows(InvalidInstructionsFormatException.class,
                 () -> parser.parse(input));
 
         assertEquals("Invalid input format number of instruction lines for marsPlateau not valid.", roverException.getMessage());
@@ -95,7 +95,7 @@ class RoverMissionParserTest {
                 "LMRMLM");
 
         //when-then
-        RoverException roverException = assertThrows(InvalidInputFormatException.class,
+        RoverException roverException = assertThrows(InvalidInstructionsFormatException.class,
                 () -> parser.parse(input));
 
         assertEquals("Invalid input format number of instruction lines for rover coordinates not valid.", roverException.getMessage());
@@ -127,7 +127,7 @@ class RoverMissionParserTest {
                 "LMRMLM");
 
         //when-then
-        RoverException roverException = assertThrows(InvalidInputFormatException.class,
+        RoverException roverException = assertThrows(InvalidInstructionsFormatException.class,
                 () -> parser.parse(input));
 
         assertEquals("Invalid input format instruction line should be not null or blank.", roverException.getMessage());

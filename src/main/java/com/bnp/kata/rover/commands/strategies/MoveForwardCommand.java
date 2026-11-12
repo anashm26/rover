@@ -1,34 +1,31 @@
 package com.bnp.kata.rover.commands.strategies;
 
-import com.bnp.kata.rover.factory.RoverMission;
+import com.bnp.kata.rover.factory.RoverMissionData;
 import com.bnp.kata.rover.model.Position;
-import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.model.enums.Direction;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class MoveForwardCommand implements CommandInterface {
 
-    private final RoverValidator validator;
+    private final RoverMissionValidator validator;
 
     @Override
-    public void execute(RoverMission roverMission) {
+    public void execute(RoverMissionData roverMissionData) {
 
-        Rover rover = roverMission.getRover();
+        Direction direction = roverMissionData.getRover().direction();
 
-        Direction direction = rover.getDirection();
-
-        Position current = rover.getPosition();
+        Position current = roverMissionData.getRover().position();
 
         Position next = Position.builder()
                 .x(current.x() + direction.getDeltaX())
                 .y(current.y() + direction.getDeltaY())
                 .build();
 
-        validator.validateMovement(next, roverMission.getMarsPlateau());
+        validator.validatePosition(next, roverMissionData.getMarsPlateau());
 
-        rover.setPosition(next);
+        roverMissionData.moveTo(next);
 
     }
 }

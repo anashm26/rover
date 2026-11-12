@@ -1,8 +1,8 @@
 package com.bnp.kata.rover.commands.strategies;
 
-import com.bnp.kata.rover.factory.RoverMission;
+import com.bnp.kata.rover.factory.RoverMissionData;
 
 public interface CommandInterface {
 
-    void execute(RoverMission roverMission);
+    void execute(RoverMissionData roverMissionData);
 }

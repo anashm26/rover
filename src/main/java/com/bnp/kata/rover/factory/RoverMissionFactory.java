@@ -2,23 +2,23 @@ package com.bnp.kata.rover.factory;
 
 import com.bnp.kata.rover.model.MarsPlateau;
 import com.bnp.kata.rover.model.Rover;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RoverMissionFactory {
 
-    private final RoverValidator validator;
+    private final RoverMissionValidator validator;
 
-    public RoverMission create(MarsPlateau marsPlateau,
-                               Rover rover,
-                               String instructions) {
+    public RoverMissionData create(MarsPlateau marsPlateau,
+                                   Rover rover,
+                                   String instructions) {
 
-        validator.validateInitialPosition(rover.getPosition(), marsPlateau);
+        validator.validatePosition(rover.position(), marsPlateau);
 
         validator.validateInstructions(instructions);
 
-        return RoverMission.builder()
+        return RoverMissionData.builder()
                 .marsPlateau(marsPlateau)
                 .rover(rover)
                 .instructions(instructions)

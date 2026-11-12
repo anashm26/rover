@@ -1,6 +1,6 @@
 package com.bnp.kata.rover.integration.provider;
 
-import com.bnp.kata.rover.exceptions.InvalidInputFormatException;
+import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
 import com.bnp.kata.rover.exceptions.RoverOutOfMarsPlateauException;
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
@@ -31,15 +31,15 @@ public class RoverMissionTestDataProvider {
         return Stream.of(
                 Arguments.of("Empty Input File",
                         "empty-input.txt",
-                        InvalidInputFormatException.class,
+                        InvalidInstructionsFormatException.class,
                         "Invalid input format number of instruction lines not valid."),
                 Arguments.of("Invalid Command",
                         "invalid-command.txt",
-                        InvalidInputFormatException.class,
+                        InvalidInstructionsFormatException.class,
                         "Invalid input format unknown code [X] for enum Command. Allowed values [L, R, M]"),
                 Arguments.of("Invalid Direction",
                         "invalid-direction.txt",
-                        InvalidInputFormatException.class,
+                        InvalidInstructionsFormatException.class,
                         "Invalid input format unknown code [D] for enum Direction. Allowed values [N, S, E, W]"),
                 Arguments.of("Rover Outside Plateau",
                         "rover-outside-plateau.txt",

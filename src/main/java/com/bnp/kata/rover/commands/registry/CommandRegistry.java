@@ -5,7 +5,7 @@ import com.bnp.kata.rover.commands.strategies.MoveForwardCommand;
 import com.bnp.kata.rover.commands.strategies.TurnLeftCommand;
 import com.bnp.kata.rover.commands.strategies.TurnRightCommand;
 import com.bnp.kata.rover.model.enums.Command;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class CommandRegistry {
 
     private final Map<Command, CommandInterface> registry;
 
-    public CommandRegistry(RoverValidator validator) {
+    public CommandRegistry(RoverMissionValidator validator) {
 
         registry = Map.of(
                 Command.MOVE_FORWARD, new MoveForwardCommand(validator),

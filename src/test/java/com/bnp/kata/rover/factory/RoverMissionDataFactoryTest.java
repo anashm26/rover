@@ -1,21 +1,21 @@
 package com.bnp.kata.rover.factory;
 
-import com.bnp.kata.rover.exceptions.InvalidInputFormatException;
+import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
 import com.bnp.kata.rover.exceptions.RoverException;
 import com.bnp.kata.rover.exceptions.RoverOutOfMarsPlateauException;
 import com.bnp.kata.rover.model.MarsPlateau;
 import com.bnp.kata.rover.model.Position;
 import com.bnp.kata.rover.model.Rover;
 import com.bnp.kata.rover.model.enums.Direction;
-import com.bnp.kata.rover.validation.RoverValidator;
+import com.bnp.kata.rover.validation.RoverMissionValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RoverMissionFactoryTest {
+class RoverMissionDataFactoryTest {
 
-    private final RoverMissionFactory factory = new RoverMissionFactory(new RoverValidator());
+    private final RoverMissionFactory factory = new RoverMissionFactory(new RoverMissionValidator());
 
     @Test
     void createsValidMission(){
@@ -30,17 +30,17 @@ class RoverMissionFactoryTest {
         String instructions = "LMMRM";
 
         //when
-        RoverMission roverMission = factory.create(marsPlateau, rover, instructions);
+        RoverMissionData roverMissionData = factory.create(marsPlateau, rover, instructions);
 
         //then
-        assertEquals(5, roverMission.getMarsPlateau().upperRight().x());
-        assertEquals(7, roverMission.getMarsPlateau().upperRight().y());
+        assertEquals(5, roverMissionData.getMarsPlateau().upperRight().x());
+        assertEquals(7, roverMissionData.getMarsPlateau().upperRight().y());
 
-        assertEquals(1, roverMission.getRover().getPosition().x());
-        assertEquals(2, roverMission.getRover().getPosition().y());
+        assertEquals(1, roverMissionData.getRover().position().x());
+        assertEquals(2, roverMissionData.getRover().position().y());
 
-        assertEquals(Direction.NORTH, roverMission.getRover().getDirection());
-        assertEquals("LMMRM", roverMission.getInstructions());
+        assertEquals(Direction.NORTH, roverMissionData.getRover().direction());
+        assertEquals("LMMRM", roverMissionData.getInstructions());
     }
 
     @Test
@@ -77,7 +77,7 @@ class RoverMissionFactoryTest {
         String instructions = "ZZZ";
 
         //when-then
-        RoverException exception = assertThrows(InvalidInputFormatException.class,
+        RoverException exception = assertThrows(InvalidInstructionsFormatException.class,
                 () -> factory.create(marsPlateau, rover, instructions));
 
         String expectedErrorMessage = "Invalid input format unknown code [Z] for enum Command. Allowed values [L, R, M]";

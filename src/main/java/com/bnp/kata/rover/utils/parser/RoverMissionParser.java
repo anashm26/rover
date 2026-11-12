@@ -1,7 +1,7 @@
 package com.bnp.kata.rover.utils.parser;
 
-import com.bnp.kata.rover.exceptions.InvalidInputFormatException;
-import com.bnp.kata.rover.factory.RoverMission;
+import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
+import com.bnp.kata.rover.factory.RoverMissionData;
 import com.bnp.kata.rover.factory.RoverMissionFactory;
 import com.bnp.kata.rover.model.MarsPlateau;
 import com.bnp.kata.rover.model.Position;
@@ -19,22 +19,22 @@ public class RoverMissionParser {
 
     private static final String SPACE_DELIMITER = "\\s+";
 
-    public List<RoverMission> parse(List<String> lines) {
+    public List<RoverMissionData> parse(List<String> lines) {
 
         validate(lines);
 
         MarsPlateau marsPlateau = parseMarsPlateau(lines.getFirst());
 
-        List<RoverMission> missions = new ArrayList<>();
+        List<RoverMissionData> missions = new ArrayList<>();
 
         for (int i = 1; i < lines.size(); i += 2) {
 
             Rover rover = parseRover(lines.get(i));
             String instructions = lines.get(i + 1);
 
-            RoverMission roverMission = factory.create(marsPlateau, rover, instructions);
+            RoverMissionData roverMissionData = factory.create(marsPlateau, rover, instructions);
 
-            missions.add(roverMission);
+            missions.add(roverMissionData);
         }
 
         return missions;
@@ -45,7 +45,7 @@ public class RoverMissionParser {
         if (lines.size() < 3
                 || lines.size() % 2 == 0) {
 
-            throw new InvalidInputFormatException("Invalid input format number of instruction lines not valid.");
+            throw new InvalidInstructionsFormatException("Invalid input format number of instruction lines not valid.");
         }
     }
 
@@ -55,7 +55,7 @@ public class RoverMissionParser {
 
         if(marsPlateauDimensions.length < 2) {
 
-            throw new InvalidInputFormatException("Invalid input format number of instruction lines for marsPlateau not valid.");
+            throw new InvalidInstructionsFormatException("Invalid input format number of instruction lines for marsPlateau not valid.");
         }
 
         return MarsPlateau.builder()
@@ -69,7 +69,7 @@ public class RoverMissionParser {
 
         if(coordinates.length < 3) {
 
-            throw new InvalidInputFormatException("Invalid input format number of instruction lines for rover coordinates not valid.");
+            throw new InvalidInstructionsFormatException("Invalid input format number of instruction lines for rover coordinates not valid.");
         }
 
         return Rover.builder()
@@ -82,7 +82,7 @@ public class RoverMissionParser {
 
         if(line == null || line.isBlank()){
 
-            throw new InvalidInputFormatException("Invalid input format instruction line should be not null or blank.");
+            throw new InvalidInstructionsFormatException("Invalid input format instruction line should be not null or blank.");
         }
 
         return line.trim().split(SPACE_DELIMITER);
