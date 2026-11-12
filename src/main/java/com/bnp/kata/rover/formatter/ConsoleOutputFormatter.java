@@ -10,7 +10,5 @@ public class ConsoleOutputFormatter implements OutputFormatter{
                 roverMissionData.getRover().position().x(),
                 roverMissionData.getRover().position().y(),
                 roverMissionData.getRover().direction().getCode());
-
-
     }
 }
