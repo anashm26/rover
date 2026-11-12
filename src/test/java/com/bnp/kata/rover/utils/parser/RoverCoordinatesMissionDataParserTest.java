@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RoverMissionDataParserTest {
+class RoverCoordinatesMissionDataParserTest {
 
     private RoverMissionParser parser;
 
@@ -41,9 +41,9 @@ class RoverMissionDataParserTest {
         //then
         assertEquals(1, roverMissionData.size());
 
-        assertEquals(1, roverMissionData.getFirst().getRover().position().x());
-        assertEquals(2, roverMissionData.getFirst().getRover().position().y());
-        assertEquals(Direction.NORTH, roverMissionData.getFirst().getRover().direction());
+        assertEquals(1, roverMissionData.getFirst().getRoverCoordinates().position().x());
+        assertEquals(2, roverMissionData.getFirst().getRoverCoordinates().position().y());
+        assertEquals(Direction.NORTH, roverMissionData.getFirst().getRoverCoordinates().direction());
         assertEquals("LMRMLM", roverMissionData.getFirst().getInstructions());
     }
 

@@ -1,11 +1,11 @@
 package com.bnp.kata.rover.utils.parser;
 
 import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
+import com.bnp.kata.rover.factory.MissionFactory;
 import com.bnp.kata.rover.factory.RoverMissionData;
-import com.bnp.kata.rover.factory.RoverMissionFactory;
 import com.bnp.kata.rover.model.MarsPlateau;
 import com.bnp.kata.rover.model.Position;
-import com.bnp.kata.rover.model.Rover;
+import com.bnp.kata.rover.model.RoverCoordinates;
 import com.bnp.kata.rover.model.enums.Direction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +15,13 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class RoverMissionParser {
+public class RoverMissionParser implements MissionParser{
 
-    private final RoverMissionFactory factory;
+    private final MissionFactory factory;
 
     private static final String SPACE_DELIMITER = "\\s+";
 
+    @Override
     public List<RoverMissionData> parse(List<String> lines) {
 
         log.info("Starting rover mission parsing");
@@ -38,18 +39,18 @@ public class RoverMissionParser {
 
         for (int i = 1; i < lines.size(); i += 2) {
 
-            Rover rover = parseRover(lines.get(i));
+            RoverCoordinates roverCoordinates = parseRover(lines.get(i));
             String instructions = lines.get(i + 1);
 
             log.info("Creating instructions [{}]", instructions);
 
-            RoverMissionData roverMissionData = factory.create(marsPlateau, rover, instructions);
+            RoverMissionData roverMissionData = factory.create(marsPlateau, roverCoordinates, instructions);
 
             log.info(
                     "Creating mission for rover [{} {} {}]",
-                    rover.position().x(),
-                    rover.position().y(),
-                    rover.direction()
+                    roverCoordinates.position().x(),
+                    roverCoordinates.position().y(),
+                    roverCoordinates.direction()
             );
             missions.add(roverMissionData);
         }
@@ -82,7 +83,7 @@ public class RoverMissionParser {
                 .build();
     }
 
-    private Rover parseRover(String line) {
+    private RoverCoordinates parseRover(String line) {
 
         String[] coordinates = parseLine(line);
 
@@ -91,7 +92,7 @@ public class RoverMissionParser {
             throw new InvalidInstructionsFormatException("Invalid input format number of instruction lines for rover coordinates not valid.");
         }
 
-        return Rover.builder()
+        return RoverCoordinates.builder()
                 .position(Position.of(coordinates[0], coordinates[1]))
                 .direction(Direction.of(coordinates[2].charAt(0)))
                 .build();

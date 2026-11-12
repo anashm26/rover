@@ -10,7 +10,7 @@ public class TurnLeftCommand implements CommandInterface {
     @Override
     public void execute(RoverMissionData roverMissionData) {
 
-        Direction previousDirection = roverMissionData.getRover().direction();
+        Direction previousDirection = roverMissionData.getRoverCoordinates().direction();
 
         Direction leftTurnDirection = Direction.of(previousDirection.getLeftTurn());
 

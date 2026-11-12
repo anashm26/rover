@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RoverMissionValidatorTest {
+class RoverCoordinatesMissionValidatorTest {
 
     private final RoverMissionValidator roverMissionValidator = new RoverMissionValidator();
 

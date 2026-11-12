@@ -1,10 +1,11 @@
 package com.bnp.kata.rover;
 
+import com.bnp.kata.rover.builder.MissionBuilder;
 import com.bnp.kata.rover.builder.RoverMissionBuilder;
 import com.bnp.kata.rover.formatter.ConsoleOutputFormatter;
 import com.bnp.kata.rover.orchestrator.RoverMissionOrchestrator;
-import com.bnp.kata.rover.reader.FileInputReader;
-import com.bnp.kata.rover.reader.InputReader;
+import com.bnp.kata.rover.reader.FileInstructionsInputReader;
+import com.bnp.kata.rover.reader.InstructionsInputReader;
 import com.bnp.kata.rover.reporter.ConsoleOutputReporter;
 import com.bnp.kata.rover.reporter.OutputReporter;
 import com.bnp.kata.rover.validation.RoverMissionValidator;
@@ -17,14 +18,14 @@ public class Main {
 
         validateArguments(args);
 
-        InputReader reader = new FileInputReader();
-        RoverMissionBuilder builder = new RoverMissionBuilder(new RoverMissionValidator());
+        InstructionsInputReader reader = new FileInstructionsInputReader(args[0]);
+        MissionBuilder builder = new RoverMissionBuilder(reader, new RoverMissionValidator());
         OutputReporter reporter = new ConsoleOutputReporter(new ConsoleOutputFormatter());
 
         RoverMissionOrchestrator orchestrator =
-                new RoverMissionOrchestrator(reader, builder, reporter);
+                new RoverMissionOrchestrator( builder, reporter);
 
-        orchestrator.execute(args[0]);
+        orchestrator.execute();
     }
 
     private static void validateArguments(String[] args) {

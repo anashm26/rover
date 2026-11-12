@@ -4,7 +4,7 @@ import com.bnp.kata.rover.exceptions.InvalidInstructionsFormatException;
 import com.bnp.kata.rover.factory.RoverMissionData;
 import com.bnp.kata.rover.model.MarsPlateau;
 import com.bnp.kata.rover.model.Position;
-import com.bnp.kata.rover.model.Rover;
+import com.bnp.kata.rover.model.RoverCoordinates;
 import com.bnp.kata.rover.model.enums.Direction;
 import com.bnp.kata.rover.validation.RoverMissionValidator;
 import org.junit.jupiter.api.Test;
@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class CommandRegistryTest {
+class MissionCommandRegistryTest {
 
-    private final CommandRegistry commandRegistry = new CommandRegistry(new RoverMissionValidator());
+    private final MissionCommandRegistry missionCommandRegistry = new MissionCommandRegistry(new RoverMissionValidator());
 
     private static final char LEFT_COMMAND = 'L';
     private static final char RIGHT_COMMAND = 'R';
@@ -28,10 +28,10 @@ class CommandRegistryTest {
         RoverMissionData roverMissionData = createRoverMission();
 
         //when
-        commandRegistry.resolve(LEFT_COMMAND)
+        missionCommandRegistry.resolve(LEFT_COMMAND)
                 .execute(roverMissionData);
 
-        Direction actualDirection = roverMissionData.getRover().direction();
+        Direction actualDirection = roverMissionData.getRoverCoordinates().direction();
 
         Direction expectedDirection = Direction.WEST;
 
@@ -46,10 +46,10 @@ class CommandRegistryTest {
         RoverMissionData roverMissionData = createRoverMission();
 
         //when
-        commandRegistry.resolve(RIGHT_COMMAND)
+        missionCommandRegistry.resolve(RIGHT_COMMAND)
                 .execute(roverMissionData);
 
-        Direction actualDirection = roverMissionData.getRover().direction();
+        Direction actualDirection = roverMissionData.getRoverCoordinates().direction();
 
         Direction expectedDirection = Direction.EAST;
 
@@ -64,10 +64,10 @@ class CommandRegistryTest {
         RoverMissionData roverMissionData = createRoverMission();
 
         //when
-        commandRegistry.resolve(MOVE_FORWARD_COMMAND)
+        missionCommandRegistry.resolve(MOVE_FORWARD_COMMAND)
                 .execute(roverMissionData);
 
-        Position actualPosition = roverMissionData.getRover().position();
+        Position actualPosition = roverMissionData.getRoverCoordinates().position();
 
         int expectedXPosition = 0;
         int expectedYPosition = 1;
@@ -82,7 +82,7 @@ class CommandRegistryTest {
 
         //when - then
         Throwable ex = assertThrows(InvalidInstructionsFormatException.class,
-                () -> commandRegistry.resolve(UNKNOWN_COMMAND));
+                () -> missionCommandRegistry.resolve(UNKNOWN_COMMAND));
 
         String expectedErrorMessage = "Invalid input format unknown code [X] for enum Command. Allowed values [L, R, M]";
 
@@ -92,13 +92,13 @@ class CommandRegistryTest {
 
     private RoverMissionData createRoverMission(){
 
-        Rover rover = Rover.builder()
+        RoverCoordinates roverCoordinates = RoverCoordinates.builder()
                 .position(new Position(0,0))
                 .direction(Direction.NORTH)
                 .build();
 
         return RoverMissionData.builder()
-                .rover(rover)
+                .roverCoordinates(roverCoordinates)
                 .marsPlateau(new MarsPlateau(new Position(5,5)))
                 .build();
     }

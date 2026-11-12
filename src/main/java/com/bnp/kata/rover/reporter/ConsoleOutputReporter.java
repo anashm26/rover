@@ -1,7 +1,7 @@
 package com.bnp.kata.rover.reporter;
 
-import com.bnp.kata.rover.factory.RoverMissionData;
-import com.bnp.kata.rover.formatter.ConsoleOutputFormatter;
+import com.bnp.kata.rover.formatter.OutputFormatter;
+import com.bnp.kata.rover.model.RoverCoordinates;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,14 +11,14 @@ import java.util.List;
 @Slf4j
 public class ConsoleOutputReporter implements OutputReporter {
 
-    private final ConsoleOutputFormatter formatter;
+    private final OutputFormatter formatter;
 
     @Override
-    public void report(List<RoverMissionData> missions) {
+    public void report(List<RoverCoordinates> roverCoordinates) {
 
-        log.info("Reporting {} rover mission result(s)", missions.size());
+        log.info("Reporting {} rover mission result(s)", roverCoordinates.size());
 
-        missions.stream()
+        roverCoordinates.stream()
                 .map(formatter::format)
                 .forEach(System.out::printf);
     }

@@ -9,11 +9,11 @@ import com.bnp.kata.rover.validation.RoverMissionValidator;
 
 import java.util.Map;
 
-public class CommandRegistry {
+public class MissionCommandRegistry implements MissionRegistry{
 
     private final Map<Command, CommandInterface> registry;
 
-    public CommandRegistry(RoverMissionValidator validator) {
+    public MissionCommandRegistry(RoverMissionValidator validator) {
 
         registry = Map.of(
                 Command.MOVE_FORWARD, new MoveForwardCommand(validator),
@@ -22,6 +22,7 @@ public class CommandRegistry {
         );
     }
 
+    @Override
     public CommandInterface resolve(char commandCode) {
 
         return registry.get(Command.of(commandCode));

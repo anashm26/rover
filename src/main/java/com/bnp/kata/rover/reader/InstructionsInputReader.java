@@ -3,7 +3,7 @@ package com.bnp.kata.rover.reader;
 import java.io.IOException;
 import java.util.List;
 
-public interface InputReader {
+public interface InstructionsInputReader {
 
-    List<String> read(String source) throws IOException;
+    List<String> readAll() throws IOException;
 }

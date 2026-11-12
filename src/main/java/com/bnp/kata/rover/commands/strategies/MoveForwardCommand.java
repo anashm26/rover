@@ -16,9 +16,9 @@ public class MoveForwardCommand implements CommandInterface {
     @Override
     public void execute(RoverMissionData roverMissionData) {
 
-        Position current = roverMissionData.getRover().position();
+        Position current = roverMissionData.getRoverCoordinates().position();
 
-        Direction direction = roverMissionData.getRover().direction();
+        Direction direction = roverMissionData.getRoverCoordinates().direction();
 
         Position next = Position.builder()
                 .x(current.x() + direction.getDeltaX())

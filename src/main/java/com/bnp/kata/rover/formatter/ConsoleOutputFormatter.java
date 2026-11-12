@@ -1,14 +1,15 @@
 package com.bnp.kata.rover.formatter;
 
-import com.bnp.kata.rover.factory.RoverMissionData;
+import com.bnp.kata.rover.model.RoverCoordinates;
 
 public class ConsoleOutputFormatter implements OutputFormatter{
 
-    public String format(RoverMissionData roverMissionData) {
+    @Override
+    public String format(RoverCoordinates roverCoordinates) {
 
         return String.format("%d %d %s%n",
-                roverMissionData.getRover().position().x(),
-                roverMissionData.getRover().position().y(),
-                roverMissionData.getRover().direction().getCode());
+                roverCoordinates.position().x(),
+                roverCoordinates.position().y(),
+                roverCoordinates.direction().getCode());
     }
 }

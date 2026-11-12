@@ -1,11 +1,11 @@
 package com.bnp.kata.rover.integration;
 
-import com.bnp.kata.rover.commands.registry.CommandRegistry;
+import com.bnp.kata.rover.commands.registry.MissionCommandRegistry;
 import com.bnp.kata.rover.exceptions.RoverException;
 import com.bnp.kata.rover.factory.RoverMissionData;
 import com.bnp.kata.rover.factory.RoverMissionFactory;
 import com.bnp.kata.rover.model.Position;
-import com.bnp.kata.rover.model.Rover;
+import com.bnp.kata.rover.model.RoverCoordinates;
 import com.bnp.kata.rover.service.RoverMissionService;
 import com.bnp.kata.rover.utils.parser.RoverMissionParser;
 import com.bnp.kata.rover.validation.RoverMissionValidator;
@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RoverMissionIntegrationTest {
+class RoverCoordinatesMissionIntegrationTest {
 
     private RoverMissionParser roverMissionParser;
     private RoverMissionService roverMissionService;
@@ -31,9 +31,9 @@ class RoverMissionIntegrationTest {
 
         RoverMissionValidator roverMissionValidator = new RoverMissionValidator();
         RoverMissionFactory roverMissionFactory = new RoverMissionFactory(roverMissionValidator);
-        CommandRegistry commandRegistry = new CommandRegistry(roverMissionValidator);
+        MissionCommandRegistry missionCommandRegistry = new MissionCommandRegistry(roverMissionValidator);
         roverMissionParser = new RoverMissionParser(roverMissionFactory);
-        roverMissionService = new RoverMissionService(commandRegistry);
+        roverMissionService = new RoverMissionService(missionCommandRegistry);
     }
 
     @ParameterizedTest(name = "{index} - {0}")
@@ -77,9 +77,9 @@ class RoverMissionIntegrationTest {
         List<String> actual = missions.stream()
                                         .map(roverMission -> {
 
-                                            Rover rover = roverMission.getRover();
-                                            Position position = rover.position();
-                                            char direction = rover.direction().getCode();
+                                            RoverCoordinates roverCoordinates = roverMission.getRoverCoordinates();
+                                            Position position = roverCoordinates.position();
+                                            char direction = roverCoordinates.direction().getCode();
 
                                             return position.x() + " " + position.y() + " " + direction;
                                         }).toList();

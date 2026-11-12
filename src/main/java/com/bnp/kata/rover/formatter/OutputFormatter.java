@@ -1,8 +1,8 @@
 package com.bnp.kata.rover.formatter;
 
-import com.bnp.kata.rover.factory.RoverMissionData;
+import com.bnp.kata.rover.model.RoverCoordinates;
 
 public interface OutputFormatter {
 
-    String format(RoverMissionData roverMissionData);
+    String format(RoverCoordinates roverCoordinates);
 }

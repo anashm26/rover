@@ -2,7 +2,7 @@
 
 A Java implementation of the classic Mars Rover kata.
 
-The application reads rover missions from an input file, executes each mission on a plateau, and prints the final rover positions.
+The application reads roverCoordinates missions from an input file, executes each mission on a plateau, and prints the final roverCoordinates positions.
 
 
 
@@ -30,7 +30,7 @@ mvn clean package
 ## Run
 
 ```bash
-java -jar mars-rover.jar input.txt
+java -jar mars-roverCoordinates.jar input.txt
 ```
 
 
@@ -56,11 +56,11 @@ mvn test -Dtest=RoverMissionIntegrationTest
 
 ## Features
 
-- Parse plateau and rover mission definitions from a text file
-- Execute rover movement and rotation commands
-- Validate rover deployment and movements
+- Parse plateau and roverCoordinates mission definitions from a text file
+- Execute roverCoordinates movement and rotation commands
+- Validate roverCoordinates deployment and movements
 - Prevent out-of-bounds navigation
-- Produce final rover positions in the expected format
+- Produce final roverCoordinates positions in the expected format
 - Extensible command architecture using the Command Pattern
 
 ---
@@ -80,9 +80,9 @@ MMRMMRMRRM
 
 The first line defines the plateau boundaries.
 
-Each rover mission is described using two lines:
+Each roverCoordinates mission is described using two lines:
 
-1. Initial rover position (`X Y D`)
+1. Initial roverCoordinates position (`X Y D`)
 2. Navigation instructions (`L`, `R`, `M`)
 3. The lower-left plateau coordinate is assumed to be: `0  0`
 
@@ -123,8 +123,8 @@ The application is organized around a small set of responsibilities:
 
 - **InputReader** loads the mission input.
 - **RoverMissionBuilder** parses the input and builds the mission execution components.
-- **RoverMissionService** executes rover instructions.
-- **RoverMissionValidator** validates rover deployment and movements.
+- **RoverMissionService** executes roverCoordinates instructions.
+- **RoverMissionValidator** validates roverCoordinates deployment and movements.
 - **OutputReporter** produces the final output.
 - **RoverMissionOrchestrator** coordinates the complete workflow from input reading to result reporting.
 
@@ -132,8 +132,8 @@ Application flow:
 
 1. Read input
 2. Build missions
-3. Execute rover commands
-4. Report final rover positions
+3. Execute roverCoordinates commands
+4. Report final roverCoordinates positions
 
 ---
 
@@ -141,7 +141,7 @@ Application flow:
 
 - Single Responsibility Principle (SRP)
 - Constructor-based dependency injection
-- Command Pattern for rover instructions
+- Command Pattern for roverCoordinates instructions
 - Immutable value objects
 - Separation of input, execution and output concerns
 - Centralized validation rules
